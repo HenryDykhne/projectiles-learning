@@ -32,7 +32,71 @@ while (i <= dataLength) {
   i = i+1
 }
 
-# Generate Model
+# Test Approach
+## Train Set
+X0_TRAIN=X0[1:8000]
+X1_TRAIN=X1[1:8000]
+Y0_TRAIN=Y0[1:8000]
+Y1_TRAIN=Y1[1:8000]
+RESULT_X_TRAIN=RESULT_X[1:8000]
+RESULT_Y_TRAIN=RESULT_Y[1:8000]
+TIME_SINCE_LAUNCH_TRAIN=TIME_SINCE_LAUNCH[1:8000]
+
+## Test set
+X0_TEST=X0[8001:dataLength]
+X1_TEST=X1[8001:dataLength]
+Y0_TEST=Y0[8001:dataLength]
+Y1_TEST=Y1[8001:dataLength]
+RESULT_X_TEST=RESULT_X[8001:dataLength]
+RESULT_Y_TEST=RESULT_Y[8001:dataLength]
+TIME_SINCE_LAUNCH_TEST=TIME_SINCE_LAUNCH[8001:dataLength]
+
+## Generate Model With Train Set
+xModel = lm(RESULT_X_TRAIN ~ X0_TRAIN + X0_TRAIN*TIME_SINCE_LAUNCH_TRAIN + X1_TRAIN*TIME_SINCE_LAUNCH_TRAIN)
+yModel = lm(RESULT_Y_TRAIN ~ Y0_TRAIN + Y0_TRAIN*TIME_SINCE_LAUNCH_TRAIN + Y1_TRAIN*TIME_SINCE_LAUNCH_TRAIN + TIME_SINCE_LAUNCH_TRAIN + I(TIME_SINCE_LAUNCH_TRAIN^2))
+
+## Test model:
+newXdata <- data.frame(X0_TRAIN=X0_TEST,
+                       X1_TRAIN=X1_TEST,
+                       TIME_SINCE_LAUNCH_TRAIN=TIME_SINCE_LAUNCH_TEST)
+newYdata <- data.frame(Y0_TRAIN=Y0_TEST,
+                       Y1_TRAIN=Y1_TEST,
+                       TIME_SINCE_LAUNCH_TRAIN=TIME_SINCE_LAUNCH_TEST)
+newX = predict(xModel, newdata = newXdata)
+newY = predict(yModel, newdata = newYdata)
+squaredErrorX = (RESULT_X_TEST-newX)^2
+squaredErrorY = (RESULT_Y_TEST-newY)^2
+str = sprintf("MSE-X on test set: %s | MSE Y on test set %s", mean(squaredErrorX), mean(squaredErrorY))
+print(str)
+
+singlePrediction <- function(x0, x1, y0, y1, time, trueX, trueY) {
+  newXdata <- data.frame(X0_TRAIN=c(x0),
+                         X1_TRAIN=c(x1),
+                         TIME_SINCE_LAUNCH_TRAIN=c(time))
+  newYdata <- data.frame(Y0_TRAIN=c(y0),
+                         Y1_TRAIN=c(y1),
+                         TIME_SINCE_LAUNCH_TRAIN=c(time))
+  
+  #use the fitted model to predict the value for the new observation
+  newX = predict(xModel, newdata = newXdata)
+  newY = predict(yModel, newdata = newYdata)
+  str = sprintf("Initial Conditions: X0 = %s, X1 = %s, Y0 = %s, Y1 = %s, TIME_SINCE_LAUNCH = %s", x0, x1, y0, y1, time)
+  print(str)
+  str = sprintf("Squared error: XError^2=%s | YError^2=%s", (trueX-newX[1])^2, (trueY-newY[1])^2)
+  print(str)
+}
+## High angle vs Low angle
+print("High Angle Test")
+singlePrediction(0, 0.6, 0, 2.939, 6, 36, 2.88)
+print("Low Angle Test")
+singlePrediction(0, 2.9, 0, 0.768, 1.6, 46.4, 0.528)
+## High power vs Low power
+print("High Power Test")
+singlePrediction(0, 5, 0, 5, 10.3, 515, 0.206)
+print("Low Power Test")
+singlePrediction(0, 0.5, 0, 0.5, 1.1, 5.5, 0.11)
+
+# Generate Full Model With All Data
 xModel = lm(RESULT_X ~ X0 + X0*TIME_SINCE_LAUNCH + X1*TIME_SINCE_LAUNCH)
 yModel = lm(RESULT_Y ~ Y0 + Y0*TIME_SINCE_LAUNCH + Y1*TIME_SINCE_LAUNCH + TIME_SINCE_LAUNCH + I(TIME_SINCE_LAUNCH^2))
 summary(xModel)
