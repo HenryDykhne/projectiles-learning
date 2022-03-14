@@ -8,7 +8,7 @@
 3) Comparisons of Errors of X and Y on High angle, Low angle, High power and Low Power shots.
 4) Summary of Full models of X and Y incorporating all of the data.
 5) A1 prediction of a projectile with the initial coordinates (0,0) and the next coordinates (0.707106781187, 0.658106781187). 
-6) A graphic that displays the trajectory. (If running in terminal, it will be saveed to the folder).
+6) A graphic that displays the trajectory. (If running in terminal, it will be saved to the folder).
 # How to Run
 ## RStudio
 1) Open `Projectiles.R` file in RStudio.
