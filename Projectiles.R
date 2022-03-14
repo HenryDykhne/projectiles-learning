@@ -31,7 +31,7 @@ while (i <= dataLength) {
   }
   i = i+1
 }
-
+cleanDataLength = length(X0)
 # Test Approach
 ## Train Set
 X0_TRAIN=X0[1:8000]
@@ -43,13 +43,13 @@ RESULT_Y_TRAIN=RESULT_Y[1:8000]
 TIME_SINCE_LAUNCH_TRAIN=TIME_SINCE_LAUNCH[1:8000]
 
 ## Test set
-X0_TEST=X0[8001:dataLength]
-X1_TEST=X1[8001:dataLength]
-Y0_TEST=Y0[8001:dataLength]
-Y1_TEST=Y1[8001:dataLength]
-RESULT_X_TEST=RESULT_X[8001:dataLength]
-RESULT_Y_TEST=RESULT_Y[8001:dataLength]
-TIME_SINCE_LAUNCH_TEST=TIME_SINCE_LAUNCH[8001:dataLength]
+X0_TEST=X0[8001:cleanDataLength]
+X1_TEST=X1[8001:cleanDataLength]
+Y0_TEST=Y0[8001:cleanDataLength]
+Y1_TEST=Y1[8001:cleanDataLength]
+RESULT_X_TEST=RESULT_X[8001:cleanDataLength]
+RESULT_Y_TEST=RESULT_Y[8001:cleanDataLength]
+TIME_SINCE_LAUNCH_TEST=TIME_SINCE_LAUNCH[8001:cleanDataLength]
 
 ## Generate Model With Train Set
 xModel = lm(RESULT_X_TRAIN ~ X0_TRAIN + X0_TRAIN*TIME_SINCE_LAUNCH_TRAIN + X1_TRAIN*TIME_SINCE_LAUNCH_TRAIN)
