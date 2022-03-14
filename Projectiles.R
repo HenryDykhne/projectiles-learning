@@ -134,4 +134,3 @@ calculateTrajectory <- function(x0, x1, y0, y1) {
 # Evaluate Model:
 #A1
 calculateTrajectory(0.0 ,0.707106781187, 0.0, 0.658106781187)
-calculateTrajectory(0.0 ,0.5437847, 0.0, 0.20457096)
