@@ -5,9 +5,10 @@
 # Output
 1) First 10 lines of provided data.
 2) MSE of X and Y on the test set after generating the model with the training set.
-3) Comparisonis of Errors of X and Y on High angle, Low angle, High power and Low Power shots.
+3) Comparisons of Errors of X and Y on High angle, Low angle, High power and Low Power shots.
 4) Summary of Full models of X and Y incorporating all of the data.
-5) A1 prediction of a projectile with the initial coordinates (0,0) and the next coordinates (0.707106781187, 0.658106781187). If you are running it in RStudio, it will also generate a graph of the trajectory.
+5) A1 prediction of a projectile with the initial coordinates (0,0) and the next coordinates (0.707106781187, 0.658106781187). 
+6) A graphic that displays the trajectory. (If running in terminal, it will be saveed to the folder).
 # How to Run
 ## RStudio
 1) Open `Projectiles.R` file in RStudio.
