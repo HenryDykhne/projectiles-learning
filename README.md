@@ -17,4 +17,4 @@
 2) Navigate to folder with `Projectiles.R` file.
 3) Run the following command: `Rscript Projectiles.R`.
 # Notes
-* Graphics will not be displayed when running in the terminal.
+* Graphics will not be displayed when running in the terminal. Instead, they will be generated and placed in the same folder under the name `Rplots.pdfs`
